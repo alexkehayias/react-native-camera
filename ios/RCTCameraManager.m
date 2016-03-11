@@ -136,7 +136,7 @@ RCT_EXPORT_VIEW_PROPERTY(onZoomChanged, BOOL)
   if ((self = [super init])) {
 
     self.session = [AVCaptureSession new];
-    self.session.sessionPreset = AVCaptureSessionPresetHigh;
+    self.session.sessionPreset = AVCaptureSessionPresetPhoto;
 
     self.previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
     self.previewLayer.needsDisplayOnBoundsChange = YES;
@@ -421,13 +421,6 @@ RCT_EXPORT_METHOD(hasFlash:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRej
 
 
 - (void)captureStill:(NSInteger)target options:(NSDictionary *)options resolve:(RCTPromiseResolveBlock)resolve reject:(RCTPromiseRejectBlock)reject {
-    // try first to change the preset to high resolution photo
-    // quality output
-    [self.session beginConfiguration];
-    if ([self.session canSetSessionPreset:AVCaptureSessionPresetPhoto]) {
-        self.session.sessionPreset = AVCaptureSessionPresetPhoto;
-    }
-    [self.session commitConfiguration];
 
   dispatch_async(self.sessionQueue, ^{
 #if TARGET_IPHONE_SIMULATOR
